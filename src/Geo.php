@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PrimeDefender;
 
 /** @phpstan-type GeoQuad array{0: ?float, 1: ?float, 2: ?string, 3: ?string} */
-final class GeoIPCache
+final class Geo
 {
     /** @var array<string, array{expires: float, value: GeoQuad}> */
     private array $cache = [];

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PrimeDefender;
 
-final class RequestInspector
+final class Detectors
 {
     private const SAMPLE_LIMIT = 8192;
     private const PATH_SAMPLE_LIMIT = 4096;
@@ -12,14 +12,14 @@ final class RequestInspector
     /** @var array<string, true> */
     private readonly array $floodExemptNormalized;
 
-    public readonly SlidingWindowLimiter $floodLimiter;
-    public readonly SlidingWindowLimiter $bruteForceLimiter;
-    public readonly SlidingWindowLimiter $botLimiter;
-    public readonly SlidingWindowLimiter $scannerLimiter;
-    public readonly SlidingWindowLimiter $suspiciousLimiter;
+    public readonly RateLimit $floodLimiter;
+    public readonly RateLimit $bruteForceLimiter;
+    public readonly RateLimit $botLimiter;
+    public readonly RateLimit $scannerLimiter;
+    public readonly RateLimit $suspiciousLimiter;
 
     public function __construct(
-        public readonly PrimeDefenderSettings $settings,
+        public readonly Config $settings,
         public readonly string $siteLabel,
     ) {
         $normalized = [];
@@ -27,11 +27,11 @@ final class RequestInspector
             $normalized[self::normalizePath($p)] = true;
         }
         $this->floodExemptNormalized = $normalized;
-        $this->floodLimiter = new SlidingWindowLimiter();
-        $this->bruteForceLimiter = new SlidingWindowLimiter();
-        $this->botLimiter = new SlidingWindowLimiter();
-        $this->scannerLimiter = new SlidingWindowLimiter();
-        $this->suspiciousLimiter = new SlidingWindowLimiter();
+        $this->floodLimiter = new RateLimit();
+        $this->bruteForceLimiter = new RateLimit();
+        $this->botLimiter = new RateLimit();
+        $this->scannerLimiter = new RateLimit();
+        $this->suspiciousLimiter = new RateLimit();
     }
 
     public static function normalizePath(string $path): string

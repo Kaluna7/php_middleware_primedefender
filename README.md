@@ -89,11 +89,11 @@ echo 'hello';
 
 ```php
 use PrimeDefender\PrimeDefender;
-use PrimeDefender\PrimeDefenderSettings;
+use PrimeDefender\Config;
 use Slim\Factory\AppFactory;
 
 $app = AppFactory::create();
-$settings = PrimeDefenderSettings::fromEnv();
+$settings = Config::fromEnv();
 
 $app->add(PrimeDefender::middleware($settings, $app->getResponseFactory()));
 ```
@@ -119,11 +119,11 @@ PrimeDefender::guard([
 ### Explicit settings (tests or multi-tenant)
 
 ```php
-$settings = PrimeDefenderSettings::fromEnv();
+$settings = Config::fromEnv();
 $middleware = PrimeDefender::middleware($settings, $responseFactory);
 ```
 
-`PrimeDefenderSettings::loadSettings()` caches env-based settings; call `PrimeDefenderSettings::clearSettingsCache()` to reset.
+`Config::loadSettings()` caches env-based settings; call `Config::clearSettingsCache()` to reset.
 
 ## Connect to the PrimeDefender bridge
 

@@ -31,7 +31,7 @@
   },
   "suggest": {
     "nyholm/psr7": "PSR-7 implementation for Slim/PSR-15 apps",
-    "slim/slim": "Use PrimeDefenderMiddleware with Slim"
+    "slim/slim": "Use Middleware with Slim"
   },
   "minimum-stability": "stable"
 }

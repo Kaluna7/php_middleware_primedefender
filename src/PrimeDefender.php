@@ -10,20 +10,20 @@ final class PrimeDefender
 {
     public const VERSION = '0.1.0';
 
-    private static ?PrimeDefenderSettings $guardSettings = null;
-    private static ?RequestInspector $guardInspector = null;
-    private static ?GeoIPCache $guardGeoip = null;
-    private static ?SlidingWindowLimiter $guardRequestCounter = null;
+    private static ?Config $guardSettings = null;
+    private static ?Detectors $guardInspector = null;
+    private static ?Geo $guardGeoip = null;
+    private static ?RateLimit $guardRequestCounter = null;
 
     /**
      * @param array<string, mixed> $overrides
      */
     public static function middleware(
-        ?PrimeDefenderSettings $settings = null,
+        ?Config $settings = null,
         ?ResponseFactoryInterface $responseFactory = null,
         array $overrides = [],
-    ): PrimeDefenderMiddleware {
-        return new PrimeDefenderMiddleware($settings, $responseFactory, $overrides);
+    ): Middleware {
+        return new Middleware($settings, $responseFactory, $overrides);
     }
 
     /**
@@ -71,8 +71,8 @@ final class PrimeDefender
             return;
         }
 
-        $decodedQuery = RequestInspector::unquotePlus($query);
-        $decodedPath = RequestInspector::unquotePlus($path);
+        $decodedQuery = Detectors::unquotePlus($query);
+        $decodedPath = Detectors::unquotePlus($path);
         $userAgent = $headers['user-agent'] ?? '';
 
         $inspector = self::guardInspector($settings);
@@ -109,14 +109,14 @@ final class PrimeDefender
 
         if ($detection->blocked) {
             $meta['responseStatus'] = $detection->statusCode;
-            IncidentReporter::reportIncident($settings, $geoip, $detection, $meta);
+            Reporter::reportIncident($settings, $geoip, $detection, $meta);
             self::emitBlockResponse($detection);
             exit;
         }
 
         // Observe mode: report immediately (response status unknown until app finishes).
         $meta['responseStatus'] = null;
-        IncidentReporter::reportIncident($settings, $geoip, $detection, $meta);
+        Reporter::reportIncident($settings, $geoip, $detection, $meta);
     }
 
     /** Reset cached guard state (mainly for tests). */
@@ -129,10 +129,10 @@ final class PrimeDefender
     }
 
     /** @param array<string, mixed> $overrides */
-    private static function resolveGuardSettings(array $overrides): PrimeDefenderSettings
+    private static function resolveGuardSettings(array $overrides): Config
     {
         if ($overrides !== []) {
-            $settings = PrimeDefenderSettings::fromEnv($overrides);
+            $settings = Config::fromEnv($overrides);
             // Overrides imply a fresh inspector so rate limits stay tied to this config.
             self::$guardSettings = $settings;
             self::$guardInspector = null;
@@ -141,32 +141,32 @@ final class PrimeDefender
         }
 
         if (self::$guardSettings === null) {
-            self::$guardSettings = PrimeDefenderSettings::loadSettings();
+            self::$guardSettings = Config::loadSettings();
         }
         return self::$guardSettings;
     }
 
-    private static function guardInspector(PrimeDefenderSettings $settings): RequestInspector
+    private static function guardInspector(Config $settings): Detectors
     {
         if (self::$guardInspector === null) {
             $siteLabel = SlarkCompat::buildSiteLabel($settings->siteId, $settings->siteRegionLabel);
-            self::$guardInspector = new RequestInspector($settings, $siteLabel);
+            self::$guardInspector = new Detectors($settings, $siteLabel);
         }
         return self::$guardInspector;
     }
 
-    private static function guardGeoip(PrimeDefenderSettings $settings): GeoIPCache
+    private static function guardGeoip(Config $settings): Geo
     {
         if (self::$guardGeoip === null) {
-            self::$guardGeoip = new GeoIPCache($settings->geoipTtlSeconds, $settings->geoipTimeoutSeconds);
+            self::$guardGeoip = new Geo($settings->geoipTtlSeconds, $settings->geoipTimeoutSeconds);
         }
         return self::$guardGeoip;
     }
 
-    private static function guardRequestCounter(): SlidingWindowLimiter
+    private static function guardRequestCounter(): RateLimit
     {
         if (self::$guardRequestCounter === null) {
-            self::$guardRequestCounter = new SlidingWindowLimiter();
+            self::$guardRequestCounter = new RateLimit();
         }
         return self::$guardRequestCounter;
     }
@@ -219,19 +219,19 @@ final class PrimeDefender
         foreach (['cf-connecting-ip', 'x-real-ip'] as $name) {
             $value = $headers[$name] ?? '';
             if ($value !== '') {
-                return GeoIPCache::stripV6Mapped(trim($value));
+                return Geo::stripV6Mapped(trim($value));
             }
         }
         $forwardedFor = $headers['x-forwarded-for'] ?? '';
         if ($forwardedFor !== '') {
             $first = trim(explode(',', $forwardedFor, 2)[0]);
             if ($first !== '') {
-                return GeoIPCache::stripV6Mapped($first);
+                return Geo::stripV6Mapped($first);
             }
         }
         $remote = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
         if ($remote !== '') {
-            return GeoIPCache::stripV6Mapped(trim($remote));
+            return Geo::stripV6Mapped(trim($remote));
         }
         return 'unknown';
     }

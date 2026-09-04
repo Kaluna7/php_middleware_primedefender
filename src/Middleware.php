@@ -10,26 +10,26 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class PrimeDefenderMiddleware implements MiddlewareInterface
+final class Middleware implements MiddlewareInterface
 {
     private readonly ResponseFactoryInterface $responseFactory;
-    private readonly PrimeDefenderSettings $settings;
-    private readonly GeoIPCache $geoip;
-    private readonly RequestInspector $inspector;
-    private readonly SlidingWindowLimiter $requestCounter;
+    private readonly Config $settings;
+    private readonly Geo $geoip;
+    private readonly Detectors $inspector;
+    private readonly RateLimit $requestCounter;
     private readonly string $siteLabel;
 
     /**
      * @param array<string, mixed> $overrides
      */
     public function __construct(
-        ?PrimeDefenderSettings $settings = null,
+        ?Config $settings = null,
         ?ResponseFactoryInterface $responseFactory = null,
         array $overrides = [],
     ) {
         if ($responseFactory === null) {
             throw new \InvalidArgumentException(
-                'PrimeDefenderMiddleware requires a Psr\Http\Message\ResponseFactoryInterface. '
+                'Middleware requires a Psr\Http\Message\ResponseFactoryInterface. '
                 . 'Inject a response factory (e.g. from nyholm/psr7) or use PrimeDefender::guard() for plain PHP.',
             );
         }
@@ -38,21 +38,21 @@ final class PrimeDefenderMiddleware implements MiddlewareInterface
         if ($settings !== null) {
             $this->settings = $settings;
         } elseif ($overrides !== []) {
-            $this->settings = PrimeDefenderSettings::fromEnv($overrides);
+            $this->settings = Config::fromEnv($overrides);
         } else {
-            $this->settings = PrimeDefenderSettings::loadSettings();
+            $this->settings = Config::loadSettings();
         }
 
         $this->siteLabel = SlarkCompat::buildSiteLabel(
             $this->settings->siteId,
             $this->settings->siteRegionLabel,
         );
-        $this->geoip = new GeoIPCache(
+        $this->geoip = new Geo(
             $this->settings->geoipTtlSeconds,
             $this->settings->geoipTimeoutSeconds,
         );
-        $this->inspector = new RequestInspector($this->settings, $this->siteLabel);
-        $this->requestCounter = new SlidingWindowLimiter();
+        $this->inspector = new Detectors($this->settings, $this->siteLabel);
+        $this->requestCounter = new RateLimit();
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -83,8 +83,8 @@ final class PrimeDefenderMiddleware implements MiddlewareInterface
         }
 
         $query = $request->getUri()->getQuery();
-        $decodedQuery = RequestInspector::unquotePlus($query);
-        $decodedPath = RequestInspector::unquotePlus($path);
+        $decodedQuery = Detectors::unquotePlus($query);
+        $decodedPath = Detectors::unquotePlus($path);
         $userAgent = $headers['user-agent'] ?? '';
 
         $meta = [
@@ -117,14 +117,14 @@ final class PrimeDefenderMiddleware implements MiddlewareInterface
 
         if ($detection->blocked) {
             $meta['responseStatus'] = $detection->statusCode;
-            IncidentReporter::reportIncident($this->settings, $this->geoip, $detection, $meta);
+            Reporter::reportIncident($this->settings, $this->geoip, $detection, $meta);
             return self::buildBlockResponse($this->responseFactory, $detection);
         }
 
         $response = $handler->handle($request);
         $meta['responseStatus'] = $response->getStatusCode();
         $meta['mitigation'] = $response->getStatusCode() >= 400 ? 'observed_error' : $detection->action;
-        IncidentReporter::reportIncident($this->settings, $this->geoip, $detection, $meta);
+        Reporter::reportIncident($this->settings, $this->geoip, $detection, $meta);
         return $response;
     }
 
@@ -170,20 +170,20 @@ final class PrimeDefenderMiddleware implements MiddlewareInterface
         foreach (['cf-connecting-ip', 'x-real-ip'] as $name) {
             $value = $headers[$name] ?? '';
             if ($value !== '') {
-                return GeoIPCache::stripV6Mapped(trim($value));
+                return Geo::stripV6Mapped(trim($value));
             }
         }
         $forwardedFor = $headers['x-forwarded-for'] ?? '';
         if ($forwardedFor !== '') {
             $first = trim(explode(',', $forwardedFor, 2)[0]);
             if ($first !== '') {
-                return GeoIPCache::stripV6Mapped($first);
+                return Geo::stripV6Mapped($first);
             }
         }
         $serverParams = $request->getServerParams();
         $remote = (string) ($serverParams['REMOTE_ADDR'] ?? '');
         if ($remote !== '') {
-            return GeoIPCache::stripV6Mapped(trim($remote));
+            return Geo::stripV6Mapped(trim($remote));
         }
         return 'unknown';
     }

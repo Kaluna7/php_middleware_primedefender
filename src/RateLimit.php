@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PrimeDefender;
 
 /** Sliding-window counter aligned with Slark `recordRateWindow` (count only allowed hits). */
-final class SlidingWindowLimiter
+final class RateLimit
 {
     /** @var array<string, float[]> */
     private array $events = [];

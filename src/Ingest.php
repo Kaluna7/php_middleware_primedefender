@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PrimeDefender;
 
-final class IngestClient
+final class Ingest
 {
     public static function resolveIngestUrl(string $bridgeBaseUrl): string
     {

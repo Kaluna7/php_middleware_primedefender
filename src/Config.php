@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PrimeDefender;
 
-final class PrimeDefenderSettings
+final class Config
 {
     private const MODE_KEYS = [
         'authBypassMode',
@@ -21,7 +21,7 @@ final class PrimeDefenderSettings
         'botActivityMode',
     ];
 
-    private static ?PrimeDefenderSettings $cached = null;
+    private static ?Config $cached = null;
 
     public readonly string $bridgeUrl;
     public readonly string $apiKey;

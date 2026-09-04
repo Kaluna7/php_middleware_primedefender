@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace PrimeDefender;
 
-final class IncidentReporter
+final class Reporter
 {
     /**
      * @param array<string, mixed> $meta
      */
     public static function reportIncident(
-        PrimeDefenderSettings $settings,
-        GeoIPCache $geo,
+        Config $settings,
+        Geo $geo,
         Detection $detection,
         array $meta,
     ): void {
@@ -51,7 +51,7 @@ final class IncidentReporter
             $sourceLabel = $ohLabel;
         } elseif ($hasCoordOverride && !$hasLabelOverride) {
             $sourceLabel = sprintf('%.3f, %.3f', $attackerLat, $attackerLon);
-        } elseif (GeoIPCache::isPrivateIp($clientIp)) {
+        } elseif (Geo::isPrivateIp($clientIp)) {
             $sourceLabel = $settings->privateSourceLabel;
         } elseif ($geoLabel !== null && $geoLabel !== '') {
             $sourceLabel = $geoLabel;
@@ -97,7 +97,7 @@ final class IncidentReporter
         }
 
         try {
-            $result = IngestClient::postIncident(
+            $result = Ingest::postIncident(
                 $url,
                 $settings->apiKey,
                 $payload,

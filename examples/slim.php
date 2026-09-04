@@ -11,14 +11,14 @@ declare(strict_types=1);
  */
 
 use PrimeDefender\PrimeDefender;
-use PrimeDefender\PrimeDefenderSettings;
+use PrimeDefender\Config;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 $app = AppFactory::create();
 
-$settings = PrimeDefenderSettings::fromEnv();
+$settings = Config::fromEnv();
 $responseFactory = $app->getResponseFactory();
 
 // Add after routing middleware so path is available; before route handlers.
