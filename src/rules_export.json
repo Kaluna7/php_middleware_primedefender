@@ -1,0 +1,2983 @@
+{
+  "SQLI_RULES": [
+    {
+      "id": "or_tautology_quote",
+      "source": "'\\s*or\\s+['\\\"]?\\d*['\\\"]?\\s*=\\s*['\\\"]?\\d*",
+      "flags": "i"
+    },
+    {
+      "id": "or_1_1",
+      "source": "'\\s*or\\s+['\\\"]?1['\\\"]?\\s*=\\s*['\\\"]?1",
+      "flags": "i"
+    },
+    {
+      "id": "or_dquote_tautology",
+      "source": "\"\\s*or\\s+\"?\\d+\"?\\s*=\\s*\"?\\d*",
+      "flags": "i"
+    },
+    {
+      "id": "sql_comment_dash",
+      "source": "--[\\s#]",
+      "flags": "i"
+    },
+    {
+      "id": "mysql_version_comment",
+      "source": "\\/\\*!\\d",
+      "flags": "i"
+    },
+    {
+      "id": "block_comment",
+      "source": "\\/\\*[\\s\\S]{0,40}\\*\\/",
+      "flags": "i"
+    },
+    {
+      "id": "hash_comment_sqli",
+      "source": "#\\s*(?:select|union|sleep|benchmark)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "union_select",
+      "source": "\\bunion\\s+[\\w*(),\\s]{0,120}\\bselect\\b",
+      "flags": "i"
+    },
+    {
+      "id": "union_all_select",
+      "source": "\\bunion\\s+all\\s+select\\b",
+      "flags": "i"
+    },
+    {
+      "id": "select_from",
+      "source": "\\bselect\\s+.{1,160}\\bfrom\\b",
+      "flags": "is"
+    },
+    {
+      "id": "select_where",
+      "source": "\\bselect\\s+.{1,80}\\bwhere\\b",
+      "flags": "is"
+    },
+    {
+      "id": "insert_into",
+      "source": "\\binsert\\s+into\\b",
+      "flags": "i"
+    },
+    {
+      "id": "update_set",
+      "source": "\\bupdate\\s+\\w+\\s+set\\b",
+      "flags": "i"
+    },
+    {
+      "id": "delete_from",
+      "source": "\\bdelete\\s+from\\b",
+      "flags": "i"
+    },
+    {
+      "id": "drop_object",
+      "source": "\\bdrop\\s+(?:table|database|schema)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "truncate_table",
+      "source": "\\btruncate\\s+table\\b",
+      "flags": "i"
+    },
+    {
+      "id": "alter_table",
+      "source": "\\balter\\s+table\\b",
+      "flags": "i"
+    },
+    {
+      "id": "create_object",
+      "source": "\\bcreate\\s+(?:table|database)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "into_outfile",
+      "source": "\\binto\\s+outfile\\b",
+      "flags": "i"
+    },
+    {
+      "id": "into_dumpfile",
+      "source": "\\binto\\s+dumpfile\\b",
+      "flags": "i"
+    },
+    {
+      "id": "load_file",
+      "source": "\\bload_file\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "outfile_fn",
+      "source": "\\boutfile\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "info_schema",
+      "source": "\\binformation_schema\\.(?:tables|columns|schemata)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "mysql_system",
+      "source": "\\bmysql\\.(?:user|db)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "pg_catalog",
+      "source": "\\bpg_catalog\\.",
+      "flags": "i"
+    },
+    {
+      "id": "mssql_sys",
+      "source": "\\bsys\\.(?:tables|databases)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "sleep_fn",
+      "source": "\\bsleep\\s*\\(\\s*\\d+",
+      "flags": "i"
+    },
+    {
+      "id": "pg_sleep",
+      "source": "\\bpg_sleep\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "waitfor_delay",
+      "source": "\\bwaitfor\\s+delay\\b",
+      "flags": "i"
+    },
+    {
+      "id": "benchmark",
+      "source": "\\bbenchmark\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "get_lock",
+      "source": "\\bget_lock\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "extractvalue",
+      "source": "\\bextractvalue\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "updatexml",
+      "source": "\\bupdatexml\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "exp_dos",
+      "source": "\\bexp\\s*\\(\\s*~",
+      "flags": "i"
+    },
+    {
+      "id": "or_tautology",
+      "source": "\\bor\\s+[\\'\"]?\\d+[\\'\"]?\\s*=\\s*[\\'\"]?\\d+",
+      "flags": "i"
+    },
+    {
+      "id": "or_string_tautology",
+      "source": "'\\s*or\\s+'\\d+'\\s*=\\s*'",
+      "flags": "i"
+    },
+    {
+      "id": "and_false",
+      "source": "\\band\\s+1\\s*=\\s*0\\b",
+      "flags": "i"
+    },
+    {
+      "id": "and_true",
+      "source": "\\band\\s+1\\s*=\\s*1\\b",
+      "flags": "i"
+    },
+    {
+      "id": "or_true_numeric",
+      "source": "\\bor\\s+1\\s*=\\s*1\\b",
+      "flags": "i"
+    },
+    {
+      "id": "having_tautology",
+      "source": "\\bhaving\\s+1\\s*=\\s*1\\b",
+      "flags": "i"
+    },
+    {
+      "id": "group_by_num",
+      "source": "\\bgroup\\s+by\\s+\\d+\\b",
+      "flags": "i"
+    },
+    {
+      "id": "order_by_num",
+      "source": "\\border\\s+by\\s+\\d+\\b",
+      "flags": "i"
+    },
+    {
+      "id": "order_by_comment",
+      "source": "\\border\\s+by\\s+\\d+\\s*--",
+      "flags": "i"
+    },
+    {
+      "id": "case_when",
+      "source": "\\bcase\\s+when\\b",
+      "flags": "i"
+    },
+    {
+      "id": "if_tautology",
+      "source": "\\bif\\s*\\(\\s*\\d+\\s*=\\s*\\d+",
+      "flags": "i"
+    },
+    {
+      "id": "char_fn",
+      "source": "\\bchar\\s*\\(\\s*\\d+",
+      "flags": "i"
+    },
+    {
+      "id": "concat_fn",
+      "source": "\\bconcat\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "group_concat",
+      "source": "\\bgroup_concat\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "hex_literal",
+      "source": "\\b0x[0-9a-f]{4,}",
+      "flags": "i"
+    },
+    {
+      "id": "cast_fn",
+      "source": "\\bcast\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "convert_fn",
+      "source": "\\bconvert\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "at_version",
+      "source": "\\b@@version\\b",
+      "flags": "i"
+    },
+    {
+      "id": "at_datadir",
+      "source": "\\b@@datadir\\b",
+      "flags": "i"
+    },
+    {
+      "id": "user_fn",
+      "source": "\\buser\\s*\\(\\s*\\)",
+      "flags": "i"
+    },
+    {
+      "id": "database_fn",
+      "source": "\\bdatabase\\s*\\(\\s*\\)",
+      "flags": "i"
+    },
+    {
+      "id": "schema_fn",
+      "source": "\\bschema\\s*\\(\\s*\\)",
+      "flags": "i"
+    },
+    {
+      "id": "version_fn",
+      "source": "\\bversion\\s*\\(\\s*\\)",
+      "flags": "i"
+    },
+    {
+      "id": "mssql_exec",
+      "source": "\\bexec\\s*\\(\\s*xp_",
+      "flags": "i"
+    },
+    {
+      "id": "xp_cmdshell",
+      "source": "\\bxp_cmdshell\\b",
+      "flags": "i"
+    },
+    {
+      "id": "sp_configure",
+      "source": "\\bsp_configure\\b",
+      "flags": "i"
+    },
+    {
+      "id": "openrowset",
+      "source": "\\bopenrowset\\b",
+      "flags": "i"
+    },
+    {
+      "id": "opendatasource",
+      "source": "\\bopendatasource\\b",
+      "flags": "i"
+    },
+    {
+      "id": "mssql_declare",
+      "source": "\\bdeclare\\s+@",
+      "flags": "i"
+    },
+    {
+      "id": "stacked_query",
+      "source": ";\\s*(?:drop|delete|truncate|update|insert)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "procedure_analyse",
+      "source": "\\bprocedure\\s+analyse\\b",
+      "flags": "i"
+    },
+    {
+      "id": "json_extract",
+      "source": "\\bjson_extract\\b",
+      "flags": "i"
+    },
+    {
+      "id": "substr_version",
+      "source": "\\bsubstr(?:ing)?\\s*\\(\\s*@@",
+      "flags": "i"
+    },
+    {
+      "id": "encoded_quote_logic",
+      "source": "%27\\s*(?:or|and)\\s*%27",
+      "flags": "i"
+    },
+    {
+      "id": "double_encoded_quote",
+      "source": "%2527",
+      "flags": "i"
+    },
+    {
+      "id": "unicode_quote",
+      "source": "%u0027",
+      "flags": "i"
+    },
+    {
+      "id": "hex_quote_logic",
+      "source": "\\x27.*(?:or|and)",
+      "flags": "i"
+    },
+    {
+      "id": "admin_comment",
+      "source": "admin'\\s*--",
+      "flags": "i"
+    },
+    {
+      "id": "quote_semi_comment",
+      "source": "'\\s*;\\s*--",
+      "flags": "i"
+    },
+    {
+      "id": "or_true_kw",
+      "source": "\\bor\\s+true\\b",
+      "flags": "i"
+    },
+    {
+      "id": "like_wildcard",
+      "source": "\\blike\\s+[\\'\"]%",
+      "flags": "i"
+    },
+    {
+      "id": "limit_offset",
+      "source": "\\blimit\\s+\\d+\\s*,\\s*\\d+",
+      "flags": "i"
+    },
+    {
+      "id": "count_star",
+      "source": "\\bcount\\s*\\(\\s*\\*\\s*\\)",
+      "flags": "i"
+    }
+  ],
+  "XSS_RULES": [
+    {
+      "id": "script_tag",
+      "source": "<\\s*script\\b",
+      "flags": "i"
+    },
+    {
+      "id": "close_script",
+      "source": "<\\s*\\/\\s*script\\b",
+      "flags": "i"
+    },
+    {
+      "id": "script_alert",
+      "source": "<\\s*script[^>]*>\\s*alert\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "script_confirm",
+      "source": "<\\s*script[^>]*>\\s*confirm\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "script_prompt",
+      "source": "<\\s*script[^>]*>\\s*prompt\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "javascript_uri",
+      "source": "javascript\\s*:",
+      "flags": "i"
+    },
+    {
+      "id": "vbscript_uri",
+      "source": "vbscript\\s*:",
+      "flags": "i"
+    },
+    {
+      "id": "data_html",
+      "source": "data\\s*:\\s*text\\/html",
+      "flags": "i"
+    },
+    {
+      "id": "data_js",
+      "source": "data\\s*:\\s*text\\/javascript",
+      "flags": "i"
+    },
+    {
+      "id": "event_handler",
+      "source": "<\\s*[^>]{0,160}\\bon\\w+\\s*=\\s*[\\'\"]?",
+      "flags": "i"
+    },
+    {
+      "id": "iframe_tag",
+      "source": "<\\s*iframe\\b",
+      "flags": "i"
+    },
+    {
+      "id": "frame_tag",
+      "source": "<\\s*frame\\b",
+      "flags": "i"
+    },
+    {
+      "id": "object_tag",
+      "source": "<\\s*object\\b",
+      "flags": "i"
+    },
+    {
+      "id": "embed_tag",
+      "source": "<\\s*embed\\b",
+      "flags": "i"
+    },
+    {
+      "id": "applet_tag",
+      "source": "<\\s*applet\\b",
+      "flags": "i"
+    },
+    {
+      "id": "meta_refresh",
+      "source": "<\\s*meta\\b[^>]{0,120}http-equiv",
+      "flags": "i"
+    },
+    {
+      "id": "link_import",
+      "source": "<\\s*link\\b[^>]{0,120}rel\\s*=\\s*[\\'\"]?stylesheet",
+      "flags": "i"
+    },
+    {
+      "id": "base_tag",
+      "source": "<\\s*base\\b",
+      "flags": "i"
+    },
+    {
+      "id": "form_action",
+      "source": "<\\s*form\\b[^>]{0,120}action",
+      "flags": "i"
+    },
+    {
+      "id": "hidden_input",
+      "source": "<\\s*input\\b[^>]{0,120}type\\s*=\\s*[\\'\"]?hidden",
+      "flags": "i"
+    },
+    {
+      "id": "svg_onhandler",
+      "source": "<\\s*svg\\b[^>]{0,200}\\bon\\w+",
+      "flags": "i"
+    },
+    {
+      "id": "math_tag",
+      "source": "<\\s*math\\b",
+      "flags": "i"
+    },
+    {
+      "id": "video_onhandler",
+      "source": "<\\s*video\\b[^>]{0,120}\\bon",
+      "flags": "i"
+    },
+    {
+      "id": "audio_onhandler",
+      "source": "<\\s*audio\\b[^>]{0,120}\\bon",
+      "flags": "i"
+    },
+    {
+      "id": "details_onhandler",
+      "source": "<\\s*details\\b[^>]{0,120}\\bon",
+      "flags": "i"
+    },
+    {
+      "id": "marquee_tag",
+      "source": "<\\s*marquee\\b",
+      "flags": "i"
+    },
+    {
+      "id": "body_onhandler",
+      "source": "<\\s*body\\b[^>]{0,120}\\bon",
+      "flags": "i"
+    },
+    {
+      "id": "img_onerror",
+      "source": "<\\s*img\\b[^>]{0,160}\\bonerror\\b",
+      "flags": "i"
+    },
+    {
+      "id": "img_onload",
+      "source": "<\\s*img\\b[^>]{0,160}\\bonsrc\\b",
+      "flags": "i"
+    },
+    {
+      "id": "source_onhandler",
+      "source": "<\\s*source\\b[^>]{0,120}\\bon",
+      "flags": "i"
+    },
+    {
+      "id": "eval_literal",
+      "source": "\\beval\\s*\\(\\s*['\"`]",
+      "flags": "i"
+    },
+    {
+      "id": "settimeout_string",
+      "source": "\\bsetTimeout\\s*\\(\\s*['\"`]",
+      "flags": "i"
+    },
+    {
+      "id": "setinterval_string",
+      "source": "\\bsetInterval\\s*\\(\\s*['\"`]",
+      "flags": "i"
+    },
+    {
+      "id": "function_ctor",
+      "source": "Function\\s*\\(\\s*['\"`]",
+      "flags": "i"
+    },
+    {
+      "id": "from_char_code",
+      "source": "String\\.fromCharCode\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "document_sink",
+      "source": "document\\.(cookie|write|domain|location)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "window_sink",
+      "source": "window\\.(location|document|open)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "location_sink",
+      "source": "location\\.(href|assign|replace)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "storage_sink",
+      "source": "localStorage\\.|sessionStorage\\.",
+      "flags": "i"
+    },
+    {
+      "id": "alert_probe",
+      "source": "\\balert\\s*\\(\\s*[\\'\"\\d]",
+      "flags": "i"
+    },
+    {
+      "id": "dialog_probe",
+      "source": "\\b(?:prompt|confirm)\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "console_probe",
+      "source": "\\bconsole\\.log\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "inline_alert",
+      "source": "\\bon\\w+\\s*=\\s*alert\\b",
+      "flags": "i"
+    },
+    {
+      "id": "inline_eval",
+      "source": "\\bon\\w+\\s*=\\s*eval\\b",
+      "flags": "i"
+    },
+    {
+      "id": "encoded_script",
+      "source": "%3[Cc]\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "encoded_iframe",
+      "source": "%3[Cc]\\s*iframe",
+      "flags": "i"
+    },
+    {
+      "id": "hex_script",
+      "source": "\\x3c\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "unicode_script",
+      "source": "\\u003c\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "entity_script",
+      "source": "&lt;\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "numeric_entity_script",
+      "source": "&#x?[0-9a-f]+;\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "cdata_script",
+      "source": "<!\\[CDATA\\[[\\s\\S]{0,80}script",
+      "flags": "i"
+    },
+    {
+      "id": "css_expression",
+      "source": "expression\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "moz_binding",
+      "source": "-moz-binding\\s*:",
+      "flags": "i"
+    },
+    {
+      "id": "css_js_url",
+      "source": "url\\s*\\(\\s*javascript",
+      "flags": "i"
+    },
+    {
+      "id": "css_import_js",
+      "source": "@import\\s+[\\'\"]?javascript",
+      "flags": "i"
+    },
+    {
+      "id": "style_expression",
+      "source": "<style[^>]{0,120}>[\\s\\S]{0,200}expression",
+      "flags": "i"
+    },
+    {
+      "id": "iframe_srcdoc",
+      "source": "srcdoc\\s*=",
+      "flags": "i"
+    },
+    {
+      "id": "formaction",
+      "source": "formaction\\s*=",
+      "flags": "i"
+    },
+    {
+      "id": "xlink_js",
+      "source": "xlink:href\\s*=\\s*[\\'\"]?javascript",
+      "flags": "i"
+    },
+    {
+      "id": "xmlns_js",
+      "source": "xmlns\\s*=\\s*[\\'\"]?javascript",
+      "flags": "i"
+    },
+    {
+      "id": "json_onhandler",
+      "source": "\\[\\s*[\\'\"]on\\w+",
+      "flags": "i"
+    },
+    {
+      "id": "title_breakout",
+      "source": "<\\/\\s*title\\s*><\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "textarea_breakout",
+      "source": "<\\/\\s*textarea\\s*><\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "style_breakout",
+      "source": "<\\/\\s*style\\s*><\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "external_script",
+      "source": "<\\s*script[^>]+src\\s*=\\s*[\\'\"]?\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "fetch_call",
+      "source": "fetch\\s*\\(\\s*['\"`]",
+      "flags": "i"
+    },
+    {
+      "id": "xhr_ctor",
+      "source": "XMLHttpRequest\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "send_beacon",
+      "source": "navigator\\.sendBeacon",
+      "flags": "i"
+    },
+    {
+      "id": "dynamic_import",
+      "source": "import\\s*\\(\\s*['\"`]",
+      "flags": "i"
+    },
+    {
+      "id": "atob_decode",
+      "source": "atob\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "btoa_encode",
+      "source": "btoa\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "self_bracket",
+      "source": "self\\[",
+      "flags": "i"
+    },
+    {
+      "id": "top_bracket",
+      "source": "top\\[",
+      "flags": "i"
+    },
+    {
+      "id": "parent_bracket",
+      "source": "parent\\[",
+      "flags": "i"
+    },
+    {
+      "id": "proto_pollution",
+      "source": "__proto__",
+      "flags": "i"
+    },
+    {
+      "id": "constructor_proto",
+      "source": "constructor\\s*\\[\\s*[\\'\"]prototype",
+      "flags": "i"
+    },
+    {
+      "id": "isindex_tag",
+      "source": "<\\s*isindex\\b",
+      "flags": "i"
+    },
+    {
+      "id": "keygen_tag",
+      "source": "<\\s*keygen\\b",
+      "flags": "i"
+    },
+    {
+      "id": "pointer_raw_update",
+      "source": "onpointerrawupdate",
+      "flags": "i"
+    },
+    {
+      "id": "animation_start",
+      "source": "onanimationstart",
+      "flags": "i"
+    },
+    {
+      "id": "focusin_handler",
+      "source": "onfocusin",
+      "flags": "i"
+    },
+    {
+      "id": "toggle_handler",
+      "source": "ontoggle",
+      "flags": "i"
+    },
+    {
+      "id": "dbl_enc_script_break",
+      "source": "%22%3e%3cscript",
+      "flags": "i"
+    },
+    {
+      "id": "quote_break_script",
+      "source": "\"><\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "squote_break_script",
+      "source": "'\\s*>\\s*<\\s*script",
+      "flags": "i"
+    },
+    {
+      "id": "svg_shorthand",
+      "source": "<svg\\/onload",
+      "flags": "i"
+    },
+    {
+      "id": "img_shorthand",
+      "source": "<img\\/src\\/onerror",
+      "flags": "i"
+    },
+    {
+      "id": "entity_colon_js",
+      "source": "javascript&colon;",
+      "flags": "i"
+    }
+  ],
+  "PATH_TRAVERSAL_RULES": [
+    {
+      "id": "dot_dot_slash",
+      "source": "\\.\\.[\\/\\\\]",
+      "flags": "i"
+    },
+    {
+      "id": "dot_dot_backslash",
+      "source": "\\.\\.\\\\",
+      "flags": "i"
+    },
+    {
+      "id": "encoded_traversal",
+      "source": "%2e%2e(?:%2f|%5c)|%252e%252e",
+      "flags": "i"
+    },
+    {
+      "id": "overlong_utf8_traversal",
+      "source": "%c0%ae%c0%ae",
+      "flags": "i"
+    },
+    {
+      "id": "mixed_encoded_traversal",
+      "source": "\\.\\.%2f",
+      "flags": "i"
+    },
+    {
+      "id": "mixed_encoded_backslash",
+      "source": "\\.\\.%5c",
+      "flags": "i"
+    },
+    {
+      "id": "etc_passwd",
+      "source": "etc\\/passwd|etc%2fpasswd",
+      "flags": "i"
+    },
+    {
+      "id": "etc_shadow",
+      "source": "etc\\/shadow|etc%2fshadow",
+      "flags": "i"
+    },
+    {
+      "id": "proc_environ",
+      "source": "proc\\/self\\/environ",
+      "flags": "i"
+    },
+    {
+      "id": "proc_cmdline",
+      "source": "proc\\/self\\/cmdline",
+      "flags": "i"
+    },
+    {
+      "id": "win_system32",
+      "source": "windows\\/system32",
+      "flags": "i"
+    },
+    {
+      "id": "win_ini",
+      "source": "win\\.ini",
+      "flags": "i"
+    },
+    {
+      "id": "boot_ini",
+      "source": "boot\\.ini",
+      "flags": "i"
+    },
+    {
+      "id": "sam_registry",
+      "source": "sam\\s*\\\\",
+      "flags": "i"
+    },
+    {
+      "id": "system_ini",
+      "source": "system\\.ini",
+      "flags": "i"
+    },
+    {
+      "id": "var_log",
+      "source": "\\/var\\/log\\/",
+      "flags": "i"
+    },
+    {
+      "id": "root_dir",
+      "source": "\\/root\\/",
+      "flags": "i"
+    },
+    {
+      "id": "home_dir",
+      "source": "\\/home\\/[^/]+\\/",
+      "flags": "i"
+    },
+    {
+      "id": "drive_letter",
+      "source": "c:\\\\",
+      "flags": "i"
+    },
+    {
+      "id": "file_uri",
+      "source": "file:\\/\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "double_traversal",
+      "source": "\\.\\.\\/\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "null_trunc_traversal",
+      "source": "\\.\\.%00",
+      "flags": "i"
+    },
+    {
+      "id": "null_prefix_traversal",
+      "source": "%00\\.\\.",
+      "flags": "i"
+    },
+    {
+      "id": "semicolon_traversal",
+      "source": "\\.\\.;\\/",
+      "flags": "i"
+    },
+    {
+      "id": "triple_dot_slash",
+      "source": "\\.\\.\\.\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "middle_traversal",
+      "source": "\\/\\.\\.\\/",
+      "flags": "i"
+    }
+  ],
+  "FILE_INCLUSION_RULES": [
+    {
+      "id": "param_local_traversal",
+      "source": "\\b(?:file|page|include|template|view|module|lang|path|doc|folder|dir|document|layout|theme|skin)=.{0,200}(?:\\.\\.[\\/\\\\]|%2e%2e)",
+      "flags": "i"
+    },
+    {
+      "id": "param_sensitive_file",
+      "source": "\\b(?:file|page|include|template|view|module|lang|path)=.{0,160}(?:etc\\/passwd|win\\.ini)",
+      "flags": "i"
+    },
+    {
+      "id": "param_remote_url",
+      "source": "\\b(?:file|page|include|template|view|module|lang|path)=.{0,140}(?:https?:\\/\\/|ftp:\\/\\/|ftps:\\/\\/)",
+      "flags": "i"
+    },
+    {
+      "id": "param_wrapper",
+      "source": "\\b(?:file|page|include|template|view|module|lang|path)=.{0,120}(?:php:\\/\\/|file:\\/\\/|zip:\\/\\/|phar:\\/\\/|data:\\/\\/|expect:\\/\\/|glob:\\/\\/)",
+      "flags": "i"
+    },
+    {
+      "id": "php_require_remote",
+      "source": "\\brequire(?:_once)?\\s*\\(\\s*[\\'\"]https?:",
+      "flags": "i"
+    },
+    {
+      "id": "php_include_remote",
+      "source": "\\binclude(?:_once)?\\s*\\(\\s*[\\'\"]https?:",
+      "flags": "i"
+    },
+    {
+      "id": "readfile_remote",
+      "source": "\\breadfile\\s*\\(\\s*[\\'\"]https?:",
+      "flags": "i"
+    },
+    {
+      "id": "fopen_remote",
+      "source": "\\bfopen\\s*\\(\\s*[\\'\"]https?:",
+      "flags": "i"
+    },
+    {
+      "id": "fgc_remote",
+      "source": "\\bfile_get_contents\\s*\\(\\s*[\\'\"]https?:",
+      "flags": "i"
+    },
+    {
+      "id": "php_filter_wrapper",
+      "source": "\\bphp:\\/\\/filter",
+      "flags": "i"
+    },
+    {
+      "id": "php_input_wrapper",
+      "source": "\\bphp:\\/\\/input",
+      "flags": "i"
+    },
+    {
+      "id": "zip_wrapper",
+      "source": "\\bzip:\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "phar_wrapper",
+      "source": "\\bphar:\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "expect_wrapper",
+      "source": "\\bexpect:\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "data_base64",
+      "source": "\\bdata:\\/\\/text\\/plain;base64,",
+      "flags": "i"
+    },
+    {
+      "id": "lfi_passwd",
+      "source": "\\b\\/etc\\/passwd\\b",
+      "flags": "i"
+    },
+    {
+      "id": "lfi_proc_self",
+      "source": "\\b\\/proc\\/self\\/",
+      "flags": "i"
+    },
+    {
+      "id": "lfi_windows",
+      "source": "\\bC:\\\\Windows\\\\",
+      "flags": "i"
+    },
+    {
+      "id": "deep_traversal_param",
+      "source": "\\.\\.\\/\\.\\.\\/\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "lang_traversal",
+      "source": "lang=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "template_traversal",
+      "source": "template=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "page_wrapper",
+      "source": "page=php:\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "module_wrapper",
+      "source": "module=php:\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "path_traversal_param",
+      "source": "path=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "document_traversal",
+      "source": "document=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "load_traversal",
+      "source": "load=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "style_traversal",
+      "source": "style=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "config_traversal",
+      "source": "config=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "resource_traversal",
+      "source": "resource=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "asset_traversal",
+      "source": "asset=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "redirect_traversal",
+      "source": "redirect=\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "return_traversal",
+      "source": "return=\\.\\.\\/",
+      "flags": "i"
+    }
+  ],
+  "CMD_INJECTION_RULES": [
+    {
+      "id": "shell_metachar",
+      "source": "[;&]\\s*(?:ls|cat|rm|wget|curl|nc\\b|netcat|bash|sh\\b|cmd\\.exe|powershell|ping|whoami|id|uname|hostname|ifconfig|ipconfig)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "and_and_cmd",
+      "source": "&&\\s*\\w+",
+      "flags": "i"
+    },
+    {
+      "id": "or_or_cmd",
+      "source": "\\|\\|\\s*\\w+",
+      "flags": "i"
+    },
+    {
+      "id": "pipe_cmd",
+      "source": "\\|\\s*(?:cat|ls|sh|bash|nc\\b|wget|curl|whoami|id)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "backtick",
+      "source": "`[^`\\n]{1,160}`",
+      "flags": "i"
+    },
+    {
+      "id": "dollar_subshell",
+      "source": "\\\\$\\([^)\\n]{1,120}\\)",
+      "flags": "i"
+    },
+    {
+      "id": "brace_subshell",
+      "source": "\\\\$\\{[^}\\n]{1,80}\\}",
+      "flags": "i"
+    },
+    {
+      "id": "pipe_sh",
+      "source": "\\|\\s*sh\\b",
+      "flags": "i"
+    },
+    {
+      "id": "pipe_bash",
+      "source": "\\|\\s*bash\\b",
+      "flags": "i"
+    },
+    {
+      "id": "semi_bin",
+      "source": ";\\s*\\/bin\\/",
+      "flags": "i"
+    },
+    {
+      "id": "semi_usr_bin",
+      "source": ";\\s*\\/usr\\/bin\\/",
+      "flags": "i"
+    },
+    {
+      "id": "bin_sh",
+      "source": "\\b\\/bin\\/sh\\b",
+      "flags": "i"
+    },
+    {
+      "id": "bin_bash",
+      "source": "\\b\\/bin\\/bash\\b",
+      "flags": "i"
+    },
+    {
+      "id": "cmd_exe",
+      "source": "\\bcmd\\.exe\\b",
+      "flags": "i"
+    },
+    {
+      "id": "powershell",
+      "source": "\\bpowershell(?:\\.exe)?\\b",
+      "flags": "i"
+    },
+    {
+      "id": "pwsh",
+      "source": "\\bpwsh\\b",
+      "flags": "i"
+    },
+    {
+      "id": "whoami",
+      "source": "\\bwhoami\\b",
+      "flags": "i"
+    },
+    {
+      "id": "net_user",
+      "source": "\\bnet\\s+user\\b",
+      "flags": "i"
+    },
+    {
+      "id": "net_localgroup",
+      "source": "\\bnet\\s+localgroup\\b",
+      "flags": "i"
+    },
+    {
+      "id": "ipconfig",
+      "source": "\\bipconfig\\b",
+      "flags": "i"
+    },
+    {
+      "id": "ifconfig",
+      "source": "\\bifconfig\\b",
+      "flags": "i"
+    },
+    {
+      "id": "nslookup",
+      "source": "\\bnslookup\\b",
+      "flags": "i"
+    },
+    {
+      "id": "dig",
+      "source": "\\bdig\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "chmod",
+      "source": "\\bchmod\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "chown",
+      "source": "\\bchown\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "tar",
+      "source": "\\btar\\s+-",
+      "flags": "i"
+    },
+    {
+      "id": "python_c",
+      "source": "\\bpython\\s+-c\\b",
+      "flags": "i"
+    },
+    {
+      "id": "perl_e",
+      "source": "\\bperl\\s+-e\\b",
+      "flags": "i"
+    },
+    {
+      "id": "ruby_e",
+      "source": "\\bruby\\s+-e\\b",
+      "flags": "i"
+    },
+    {
+      "id": "node_e",
+      "source": "\\bnode\\s+-e\\b",
+      "flags": "i"
+    },
+    {
+      "id": "php_r",
+      "source": "\\bphp\\s+-r\\b",
+      "flags": "i"
+    },
+    {
+      "id": "base64_decode_cmd",
+      "source": "\\bbase64\\s+-d\\b",
+      "flags": "i"
+    },
+    {
+      "id": "eval_cmd",
+      "source": "\\beval\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "sudo",
+      "source": "\\bsudo\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "su_dash",
+      "source": "\\bsu\\s+-",
+      "flags": "i"
+    },
+    {
+      "id": "kill",
+      "source": "\\bkill(?:all)?\\s+-",
+      "flags": "i"
+    },
+    {
+      "id": "ps_aux",
+      "source": "\\bps\\s+aux\\b",
+      "flags": "i"
+    },
+    {
+      "id": "top_cmd",
+      "source": "\\btop\\b",
+      "flags": "i"
+    },
+    {
+      "id": "env_cmd",
+      "source": "\\benv\\b",
+      "flags": "i"
+    },
+    {
+      "id": "printenv",
+      "source": "\\bprintenv\\b",
+      "flags": "i"
+    },
+    {
+      "id": "export_cmd",
+      "source": "\\bexport\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "curl_flags",
+      "source": "\\bcurl\\s+-",
+      "flags": "i"
+    },
+    {
+      "id": "wget_flags",
+      "source": "\\bwget\\s+-",
+      "flags": "i"
+    },
+    {
+      "id": "nc_flags",
+      "source": "\\bnc\\s+-",
+      "flags": "i"
+    },
+    {
+      "id": "ncat",
+      "source": "\\bncat\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "telnet",
+      "source": "\\btelnet\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "ssh",
+      "source": "\\bssh\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "scp",
+      "source": "\\bscp\\s+",
+      "flags": "i"
+    },
+    {
+      "id": "rm_rf",
+      "source": "\\brm\\s+-rf\\b",
+      "flags": "i"
+    },
+    {
+      "id": "dd_if",
+      "source": "\\bdd\\s+if=",
+      "flags": "i"
+    },
+    {
+      "id": "mkfifo",
+      "source": "\\bmkfifo\\b",
+      "flags": "i"
+    },
+    {
+      "id": "dev_tcp",
+      "source": "\\b\\/dev\\/tcp\\/",
+      "flags": "i"
+    },
+    {
+      "id": "dev_udp",
+      "source": "\\b\\/dev\\/udp\\/",
+      "flags": "i"
+    },
+    {
+      "id": "newline_cmd",
+      "source": "%0a(?:cat|ls|id|whoami|wget|curl)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "crlf_cmd",
+      "source": "%0d%0a(?:cat|ls|id)\\b",
+      "flags": "i"
+    }
+  ],
+  "AUTH_BYPASS_RULES": [
+    {
+      "id": "rewrite_override",
+      "source": "\\b(?:x-original-url|x-rewrite-url|x-forwarded-uri|x-uri)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "method_override_hdr",
+      "source": "\\b(?:x-http-method-override|x-method-override)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "method_override_val",
+      "source": "\\b(?:x-http-method-override)\\s*[:=]\\s*(?:put|patch|delete|trace)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "underscore_method",
+      "source": "\\b_x_method\\s*=\\s*(?:put|delete|patch)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "privilege_param",
+      "source": "\\b(?:role|isadmin|is_admin|admin|access_level|scope|impersonate|sudo|superuser)\\s*[:=]\\s*(?:1|true|admin|root|superuser)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "id_override",
+      "source": "\\b(?:user_id|uid|account_id)\\s*=\\s*(?:0|1|admin)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "token_bypass",
+      "source": "\\b(?:jwt|token|api_key|apikey|secret)\\s*=\\s*[\\'\"]?(?:null|none|undefined|admin)",
+      "flags": "i"
+    },
+    {
+      "id": "privileged_path",
+      "source": "\\b(?:\\/admin(?:\\/|\\$)|\\/internal(?:\\/|\\$)|\\/private(?:\\/|\\$)|\\/actuator(?:\\/|\\$)|\\/debug(?:\\/|\\$))",
+      "flags": "i"
+    },
+    {
+      "id": "acme_traversal",
+      "source": "\\b\\/\\.well-known\\/acme-challenge\\/\\.\\.",
+      "flags": "i"
+    },
+    {
+      "id": "bearer_null",
+      "source": "\\bauthorization\\s*:\\s*bearer\\s+(?:null|none|undefined)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "basic_admin",
+      "source": "\\bauthorization\\s*:\\s*basic\\s+[a-z0-9+/=]{0,20}admin",
+      "flags": "i"
+    },
+    {
+      "id": "api_key_test",
+      "source": "\\bx-api-key\\s*:\\s*(?:test|admin|null)",
+      "flags": "i"
+    },
+    {
+      "id": "auth_token_bypass",
+      "source": "\\bx-auth-token\\s*:\\s*(?:bypass|admin|null)",
+      "flags": "i"
+    },
+    {
+      "id": "debug_true",
+      "source": "\\bdebug\\s*=\\s*true\\b",
+      "flags": "i"
+    },
+    {
+      "id": "test_flag",
+      "source": "\\btest\\s*=\\s*1\\b",
+      "flags": "i"
+    },
+    {
+      "id": "no_auth_flag",
+      "source": "\\bno_auth\\s*=\\s*1\\b",
+      "flags": "i"
+    },
+    {
+      "id": "skip_auth_flag",
+      "source": "\\bskip_auth\\s*=\\s*1\\b",
+      "flags": "i"
+    },
+    {
+      "id": "bypass_flag",
+      "source": "\\bbypass\\s*=\\s*1\\b",
+      "flags": "i"
+    },
+    {
+      "id": "auth_true_param",
+      "source": "\\bauthenticated\\s*=\\s*true\\b",
+      "flags": "i"
+    },
+    {
+      "id": "login_as",
+      "source": "\\blogin_as\\s*=",
+      "flags": "i"
+    },
+    {
+      "id": "impersonate_param",
+      "source": "\\bimpersonate\\s*=",
+      "flags": "i"
+    },
+    {
+      "id": "custom_ip_auth",
+      "source": "\\bX-Custom-IP-Authorization\\b",
+      "flags": "i"
+    },
+    {
+      "id": "fwd_host_localhost",
+      "source": "\\bX-Forwarded-Host\\s*:\\s*localhost",
+      "flags": "i"
+    },
+    {
+      "id": "original_host",
+      "source": "\\bX-Original-Host\\s*:\\s*",
+      "flags": "i"
+    },
+    {
+      "id": "rewrite_admin",
+      "source": "\\bX-Rewrite-URL\\s*:\\s*\\/admin",
+      "flags": "i"
+    },
+    {
+      "id": "original_admin",
+      "source": "\\bX-Original-URL\\s*:\\s*\\/admin",
+      "flags": "i"
+    },
+    {
+      "id": "override_url",
+      "source": "\\bX-Override-URL\\s*:\\s*",
+      "flags": "i"
+    },
+    {
+      "id": "proxy_user_ip",
+      "source": "\\bX-ProxyUser-Ip\\s*:\\s*127\\.0\\.0\\.1",
+      "flags": "i"
+    },
+    {
+      "id": "client_ip_spoof",
+      "source": "\\bClient-IP\\s*:\\s*127\\.0\\.0\\.1",
+      "flags": "i"
+    },
+    {
+      "id": "true_client_ip_spoof",
+      "source": "\\bTrue-Client-IP\\s*:\\s*127\\.0\\.0\\.1",
+      "flags": "i"
+    },
+    {
+      "id": "access_token_admin",
+      "source": "\\baccess_token=admin\\b",
+      "flags": "i"
+    },
+    {
+      "id": "weak_password_probe",
+      "source": "\\bpassword=\\s*(?:\\'|\\\")?(?:admin|password|123456)",
+      "flags": "i"
+    }
+  ],
+  "SUSPICIOUS_REQUEST_RULES": [
+    {
+      "id": "null_byte",
+      "source": "%00|\\0",
+      "flags": "i"
+    },
+    {
+      "id": "double_encoded",
+      "source": "%25(?:32|33|34|35|36|37|38|39)",
+      "flags": "i"
+    },
+    {
+      "id": "double_encoded_slash",
+      "source": "%252f|%255c",
+      "flags": "i"
+    },
+    {
+      "id": "malformed_probe",
+      "source": "\\b(?:\\*\\/\\*|\\.\\.\\/\\.\\.\\/|%2f%2f|\\/\\/\\/|__proto__|constructor\\.)",
+      "flags": "i"
+    },
+    {
+      "id": "unsafe_method_probe",
+      "source": "\\b(?:trace|track)\\b",
+      "flags": "i"
+    },
+    {
+      "id": "prototype_assign",
+      "source": "\\bprototype\\s*=\\s*\\{",
+      "flags": "i"
+    },
+    {
+      "id": "define_getter",
+      "source": "\\b__defineGetter__\\b",
+      "flags": "i"
+    },
+    {
+      "id": "define_setter",
+      "source": "\\b__defineSetter__\\b",
+      "flags": "i"
+    },
+    {
+      "id": "object_assign_json",
+      "source": "\\bObject\\.assign\\s*\\(\\s*\\{\\s*\\},\\s*JSON",
+      "flags": "i"
+    },
+    {
+      "id": "log4j_jndi",
+      "source": "\\\\$\\{jndi:",
+      "flags": "i"
+    },
+    {
+      "id": "template_env",
+      "source": "\\\\$\\{env:",
+      "flags": "i"
+    },
+    {
+      "id": "template_sys",
+      "source": "\\\\$\\{sys:",
+      "flags": "i"
+    },
+    {
+      "id": "template_lower",
+      "source": "\\\\$\\{lower:",
+      "flags": "i"
+    },
+    {
+      "id": "template_upper",
+      "source": "\\\\$\\{upper:",
+      "flags": "i"
+    },
+    {
+      "id": "struts_ognl",
+      "source": "%\\{[^}]{1,80}\\}",
+      "flags": "i"
+    },
+    {
+      "id": "el_injection",
+      "source": "#\\s*\\{\\s*",
+      "flags": "i"
+    },
+    {
+      "id": "template_literal",
+      "source": "\\\\$\\{\\s*",
+      "flags": "i"
+    },
+    {
+      "id": "erb_output",
+      "source": "<%\\s*=\\s*",
+      "flags": "i"
+    },
+    {
+      "id": "freemarker_assign",
+      "source": "<#\\s*assign",
+      "flags": "i"
+    },
+    {
+      "id": "velocity_ref",
+      "source": "\\[\\[\\s*\\\\$\\{",
+      "flags": "i"
+    },
+    {
+      "id": "expression_lang",
+      "source": "@\\s*\\(\\s*[\\'\"]",
+      "flags": "i"
+    },
+    {
+      "id": "b64_decode_fn",
+      "source": "\\bbase64_decode\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "gzinflate",
+      "source": "\\bgzinflate\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "gzuncompress",
+      "source": "\\bgzuncompress\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "php_assert",
+      "source": "\\bassert\\s*\\(\\s*\\\\$",
+      "flags": "i"
+    },
+    {
+      "id": "create_function",
+      "source": "\\bcreate_function\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "preg_replace_e",
+      "source": "\\bpreg_replace\\s*\\([^)]*\\/e",
+      "flags": "i"
+    },
+    {
+      "id": "call_user_func",
+      "source": "\\bcall_user_func\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "system_fn",
+      "source": "\\bsystem\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "shell_exec",
+      "source": "\\bshell_exec\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "passthru",
+      "source": "\\bpassthru\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "proc_open",
+      "source": "\\bproc_open\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "popen",
+      "source": "\\bpopen\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "pcntl_exec",
+      "source": "\\bpcntl_exec\\s*\\(",
+      "flags": "i"
+    },
+    {
+      "id": "move_uploaded",
+      "source": "\\bmove_uploaded_file\\b",
+      "flags": "i"
+    },
+    {
+      "id": "dangerous_upload",
+      "source": "multipart\\/form-data.*filename=.*\\.(?:php|phtml|phar|asp|aspx|jsp)",
+      "flags": "i"
+    },
+    {
+      "id": "php_content_type",
+      "source": "Content-Type:\\s*application\\/x-php",
+      "flags": "i"
+    },
+    {
+      "id": "null_in_path",
+      "source": "\\.\\.%00\\.",
+      "flags": "i"
+    },
+    {
+      "id": "charset_ibm037",
+      "source": "charset=ibm037",
+      "flags": "i"
+    },
+    {
+      "id": "utf7",
+      "source": "utf-7",
+      "flags": "i"
+    },
+    {
+      "id": "utf7_encoded",
+      "source": "%ADd",
+      "flags": "i"
+    },
+    {
+      "id": "raw_null",
+      "source": "\\x00",
+      "flags": "i"
+    },
+    {
+      "id": "control_chars",
+      "source": "[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f]",
+      "flags": "i"
+    },
+    {
+      "id": "inline_select",
+      "source": "\\bSELECT\\b.{0,40}\\bFROM\\b",
+      "flags": "is"
+    },
+    {
+      "id": "inline_script",
+      "source": "<script",
+      "flags": "i"
+    },
+    {
+      "id": "inline_onerror",
+      "source": "onerror\\s*=",
+      "flags": "i"
+    },
+    {
+      "id": "inline_javascript",
+      "source": "javascript:",
+      "flags": "i"
+    },
+    {
+      "id": "inline_traversal",
+      "source": "\\.\\.\\/\\.\\.\\/",
+      "flags": "i"
+    },
+    {
+      "id": "inline_mysql_comment",
+      "source": "\\/\\*\\!",
+      "flags": "i"
+    },
+    {
+      "id": "inline_union",
+      "source": "union\\s+select",
+      "flags": "i"
+    },
+    {
+      "id": "inline_cmd",
+      "source": "cmd\\.exe",
+      "flags": "i"
+    },
+    {
+      "id": "inline_passwd",
+      "source": "\\/etc\\/passwd",
+      "flags": "i"
+    },
+    {
+      "id": "inline_php_wrapper",
+      "source": "php:\\/\\/",
+      "flags": "i"
+    },
+    {
+      "id": "inline_template",
+      "source": "\\\\${",
+      "flags": "i"
+    },
+    {
+      "id": "inline_jndi",
+      "source": "jndi:ldap",
+      "flags": "i"
+    },
+    {
+      "id": "inline_proto",
+      "source": "__proto__",
+      "flags": "i"
+    },
+    {
+      "id": "inline_base64",
+      "source": "base64,",
+      "flags": "i"
+    },
+    {
+      "id": "unicode_escape",
+      "source": "%u00",
+      "flags": "i"
+    },
+    {
+      "id": "hex_escape",
+      "source": "\\x[0-9a-f]{2}",
+      "flags": "i"
+    },
+    {
+      "id": "html_entity",
+      "source": "&#[0-9]{2,5};",
+      "flags": "i"
+    },
+    {
+      "id": "trace_method",
+      "source": "\\bTRACE\\b",
+      "flags": "i"
+    },
+    {
+      "id": "track_method",
+      "source": "\\bTRACK\\b",
+      "flags": "i"
+    }
+  ],
+  "SCANNER_PATH_RULES": [
+    {
+      "id": "path_wp_admin",
+      "source": "^\\/wp-admin(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_wp_login_php",
+      "source": "^\\/wp-login\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_wp_content",
+      "source": "^\\/wp-content(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_wp_includes",
+      "source": "^\\/wp-includes(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_xmlrpc_php",
+      "source": "^\\/xmlrpc\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_phpmyadmin",
+      "source": "^\\/phpmyadmin(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_pma",
+      "source": "^\\/pma(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_adminer",
+      "source": "^\\/adminer(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_adminer_php",
+      "source": "^\\/adminer\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_env",
+      "source": "^\\/\\.env(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_git",
+      "source": "^\\/\\.git(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_svn",
+      "source": "^\\/\\.svn(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_hg",
+      "source": "^\\/\\.hg(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_DS_Store",
+      "source": "^\\/\\.DS_Store(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_server_status",
+      "source": "^\\/server-status(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_server_info",
+      "source": "^\\/server-info(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_debug",
+      "source": "^\\/debug(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_trace",
+      "source": "^\\/trace(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_actuator",
+      "source": "^\\/actuator(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_actuator_env",
+      "source": "^\\/actuator\\/env(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_actuator_health",
+      "source": "^\\/actuator\\/health(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_vendor_phpunit",
+      "source": "^\\/vendor\\/phpunit(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_boaform",
+      "source": "^\\/boaform(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_cgi_bin",
+      "source": "^\\/cgi-bin(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_jenkins",
+      "source": "^\\/jenkins(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_solr",
+      "source": "^\\/solr(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_console",
+      "source": "^\\/console(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_manager_html",
+      "source": "^\\/manager\\/html(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_phpinfo_php",
+      "source": "^\\/phpinfo\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_info_php",
+      "source": "^\\/info\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_config_php",
+      "source": "^\\/config\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_backup",
+      "source": "^\\/backup(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_backups",
+      "source": "^\\/backups(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_dump_sql",
+      "source": "^\\/dump\\.sql(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_database_sql",
+      "source": "^\\/database\\.sql(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_aws",
+      "source": "^\\/\\.aws(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_docker",
+      "source": "^\\/\\.docker(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_crossdomain_xml",
+      "source": "^\\/crossdomain\\.xml(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_clientaccesspolicy_xml",
+      "source": "^\\/clientaccesspolicy\\.xml(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_telescope",
+      "source": "^\\/telescope(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_horizon",
+      "source": "^\\/horizon(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_profiler",
+      "source": "^\\/_profiler(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_graphql",
+      "source": "^\\/graphql(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_swagger",
+      "source": "^\\/swagger(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_api_docs",
+      "source": "^\\/api-docs(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_well_known_security_txt",
+      "source": "^\\/\\.well-known\\/security\\.txt(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_admin_config",
+      "source": "^\\/admin\\/config(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_administrator",
+      "source": "^\\/administrator(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_cpanel",
+      "source": "^\\/cpanel(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_webmail",
+      "source": "^\\/webmail(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_shell",
+      "source": "^\\/shell(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_cmd",
+      "source": "^\\/cmd(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_eval_stdin_php",
+      "source": "^\\/eval-stdin\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_vendor_laravel",
+      "source": "^\\/vendor\\/laravel(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_storage_logs",
+      "source": "^\\/storage\\/logs(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_laravel_log",
+      "source": "^\\/laravel\\.log(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_debug_default_view",
+      "source": "^\\/debug\\/default\\/view(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_elmah_axd",
+      "source": "^\\/elmah\\.axd(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_aws_credentials",
+      "source": "^\\/aws\\/credentials(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_id_rsa",
+      "source": "^\\/id_rsa(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_id_dsa",
+      "source": "^\\/id_dsa(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_authorized_keys",
+      "source": "^\\/authorized_keys(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_web_config",
+      "source": "^\\/web\\.config(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_appsettings_json",
+      "source": "^\\/appsettings\\.json(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_settings_py",
+      "source": "^\\/settings\\.py(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_secrets_json",
+      "source": "^\\/secrets\\.json(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_credentials_json",
+      "source": "^\\/credentials\\.json(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_docker_compose_yml",
+      "source": "^\\/docker-compose\\.yml(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_kubeconfig",
+      "source": "^\\/kubeconfig(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_terraform_tfstate",
+      "source": "^\\/terraform\\.tfstate(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_sftp_config_json",
+      "source": "^\\/sftp-config\\.json(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_composer_json",
+      "source": "^\\/composer\\.json(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_package_lock_json",
+      "source": "^\\/package-lock\\.json(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_yarn_lock",
+      "source": "^\\/yarn\\.lock(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_readme_md",
+      "source": "^\\/readme\\.md(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_license_txt",
+      "source": "^\\/license\\.txt(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_install_php",
+      "source": "^\\/install\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_setup_php",
+      "source": "^\\/setup\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_upgrade_php",
+      "source": "^\\/upgrade\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_test_php",
+      "source": "^\\/test\\.php(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_phpunit",
+      "source": "^\\/phpunit(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_owa_auth",
+      "source": "^\\/owa\\/auth(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_exchange",
+      "source": "^\\/exchange(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_autodiscover",
+      "source": "^\\/autodiscover(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_remote_login",
+      "source": "^\\/remote\\/login(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_dana_na",
+      "source": "^\\/dana-na(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_HNAP1",
+      "source": "^\\/HNAP1(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_sdk",
+      "source": "^\\/sdk(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_evox_about",
+      "source": "^\\/evox\\/about(?:\\/|$|\\?)",
+      "flags": "i"
+    },
+    {
+      "id": "path_nmaplowercheck",
+      "source": "^\\/nmaplowercheck(?:\\/|$|\\?)",
+      "flags": "i"
+    }
+  ],
+  "DEFAULT_UA_BLOCK": [
+    {
+      "id": "sqlmap",
+      "source": "sqlmap",
+      "flags": "i"
+    },
+    {
+      "id": "nikto",
+      "source": "nikto",
+      "flags": "i"
+    },
+    {
+      "id": "nmap",
+      "source": "nmap",
+      "flags": "i"
+    },
+    {
+      "id": "masscan",
+      "source": "masscan",
+      "flags": "i"
+    },
+    {
+      "id": "zgrab",
+      "source": "zgrab",
+      "flags": "i"
+    },
+    {
+      "id": "wpscan",
+      "source": "wpscan",
+      "flags": "i"
+    },
+    {
+      "id": "acunetix",
+      "source": "acunetix",
+      "flags": "i"
+    },
+    {
+      "id": "nessus",
+      "source": "nessus",
+      "flags": "i"
+    },
+    {
+      "id": "openvas",
+      "source": "openvas",
+      "flags": "i"
+    },
+    {
+      "id": "qualys",
+      "source": "qualys",
+      "flags": "i"
+    },
+    {
+      "id": "burp",
+      "source": "burp",
+      "flags": "i"
+    },
+    {
+      "id": "burpsuite",
+      "source": "burpsuite",
+      "flags": "i"
+    },
+    {
+      "id": "owasp_zap",
+      "source": "owasp zap",
+      "flags": "i"
+    },
+    {
+      "id": "zaproxy",
+      "source": "zaproxy",
+      "flags": "i"
+    },
+    {
+      "id": "arachni",
+      "source": "arachni",
+      "flags": "i"
+    },
+    {
+      "id": "skipfish",
+      "source": "skipfish",
+      "flags": "i"
+    },
+    {
+      "id": "w3af",
+      "source": "w3af",
+      "flags": "i"
+    },
+    {
+      "id": "dirbuster",
+      "source": "dirbuster",
+      "flags": "i"
+    },
+    {
+      "id": "dirb",
+      "source": "dirb",
+      "flags": "i"
+    },
+    {
+      "id": "gobuster",
+      "source": "gobuster",
+      "flags": "i"
+    },
+    {
+      "id": "ffuf",
+      "source": "ffuf",
+      "flags": "i"
+    },
+    {
+      "id": "feroxbuster",
+      "source": "feroxbuster",
+      "flags": "i"
+    },
+    {
+      "id": "wfuzz",
+      "source": "wfuzz",
+      "flags": "i"
+    },
+    {
+      "id": "hydra",
+      "source": "hydra",
+      "flags": "i"
+    },
+    {
+      "id": "medusa",
+      "source": "medusa",
+      "flags": "i"
+    },
+    {
+      "id": "metasploit",
+      "source": "metasploit",
+      "flags": "i"
+    },
+    {
+      "id": "msf",
+      "source": "msf",
+      "flags": "i"
+    },
+    {
+      "id": "nuclei",
+      "source": "nuclei",
+      "flags": "i"
+    },
+    {
+      "id": "httpx",
+      "source": "httpx",
+      "flags": "i"
+    },
+    {
+      "id": "subfinder",
+      "source": "subfinder",
+      "flags": "i"
+    },
+    {
+      "id": "amass",
+      "source": "amass",
+      "flags": "i"
+    },
+    {
+      "id": "shodan",
+      "source": "shodan",
+      "flags": "i"
+    },
+    {
+      "id": "censys",
+      "source": "censys",
+      "flags": "i"
+    },
+    {
+      "id": "curl",
+      "source": "curl",
+      "flags": "i"
+    },
+    {
+      "id": "wget",
+      "source": "wget",
+      "flags": "i"
+    },
+    {
+      "id": "python_requests",
+      "source": "python-requests",
+      "flags": "i"
+    },
+    {
+      "id": "python_urllib",
+      "source": "python-urllib",
+      "flags": "i"
+    },
+    {
+      "id": "aiohttp",
+      "source": "aiohttp",
+      "flags": "i"
+    },
+    {
+      "id": "httplib2",
+      "source": "httplib2",
+      "flags": "i"
+    },
+    {
+      "id": "libwww_perl",
+      "source": "libwww-perl",
+      "flags": "i"
+    },
+    {
+      "id": "lwp_trivial",
+      "source": "lwp-trivial",
+      "flags": "i"
+    },
+    {
+      "id": "go_http_client",
+      "source": "go-http-client",
+      "flags": "i"
+    },
+    {
+      "id": "java",
+      "source": "java\\/",
+      "flags": "i"
+    },
+    {
+      "id": "apache_httpclient",
+      "source": "apache-httpclient",
+      "flags": "i"
+    },
+    {
+      "id": "okhttp",
+      "source": "okhttp",
+      "flags": "i"
+    },
+    {
+      "id": "axios",
+      "source": "axios",
+      "flags": "i"
+    },
+    {
+      "id": "node_fetch",
+      "source": "node-fetch",
+      "flags": "i"
+    },
+    {
+      "id": "undici",
+      "source": "undici",
+      "flags": "i"
+    },
+    {
+      "id": "postmanruntime",
+      "source": "postmanruntime",
+      "flags": "i"
+    },
+    {
+      "id": "insomnia",
+      "source": "insomnia",
+      "flags": "i"
+    },
+    {
+      "id": "httpie",
+      "source": "httpie",
+      "flags": "i"
+    },
+    {
+      "id": "rest_client",
+      "source": "rest-client",
+      "flags": "i"
+    },
+    {
+      "id": "headlesschrome",
+      "source": "headlesschrome",
+      "flags": "i"
+    },
+    {
+      "id": "headless",
+      "source": "headless",
+      "flags": "i"
+    },
+    {
+      "id": "phantomjs",
+      "source": "phantomjs",
+      "flags": "i"
+    },
+    {
+      "id": "playwright",
+      "source": "playwright",
+      "flags": "i"
+    },
+    {
+      "id": "puppeteer",
+      "source": "puppeteer",
+      "flags": "i"
+    },
+    {
+      "id": "selenium",
+      "source": "selenium",
+      "flags": "i"
+    },
+    {
+      "id": "webdriver",
+      "source": "webdriver",
+      "flags": "i"
+    },
+    {
+      "id": "scrapy",
+      "source": "scrapy",
+      "flags": "i"
+    },
+    {
+      "id": "mechanize",
+      "source": "mechanize",
+      "flags": "i"
+    },
+    {
+      "id": "httpclient",
+      "source": "httpclient",
+      "flags": "i"
+    },
+    {
+      "id": "winhttp",
+      "source": "winhttp",
+      "flags": "i"
+    },
+    {
+      "id": "powershell",
+      "source": "powershell",
+      "flags": "i"
+    },
+    {
+      "id": "googlebot",
+      "source": "googlebot",
+      "flags": "i"
+    },
+    {
+      "id": "bingbot",
+      "source": "bingbot",
+      "flags": "i"
+    },
+    {
+      "id": "baiduspider",
+      "source": "baiduspider",
+      "flags": "i"
+    },
+    {
+      "id": "yandexbot",
+      "source": "yandexbot",
+      "flags": "i"
+    },
+    {
+      "id": "petalbot",
+      "source": "petalbot",
+      "flags": "i"
+    },
+    {
+      "id": "semrushbot",
+      "source": "semrushbot",
+      "flags": "i"
+    },
+    {
+      "id": "ahrefsbot",
+      "source": "ahrefsbot",
+      "flags": "i"
+    },
+    {
+      "id": "mj12bot",
+      "source": "mj12bot",
+      "flags": "i"
+    },
+    {
+      "id": "dotbot",
+      "source": "dotbot",
+      "flags": "i"
+    },
+    {
+      "id": "bytespider",
+      "source": "bytespider",
+      "flags": "i"
+    },
+    {
+      "id": "gptbot",
+      "source": "gptbot",
+      "flags": "i"
+    },
+    {
+      "id": "claudebot",
+      "source": "claudebot",
+      "flags": "i"
+    },
+    {
+      "id": "ccbot",
+      "source": "ccbot",
+      "flags": "i"
+    },
+    {
+      "id": "zmap",
+      "source": "zmap",
+      "flags": "i"
+    },
+    {
+      "id": "nmap_scripting_engine",
+      "source": "nmap scripting engine",
+      "flags": "i"
+    },
+    {
+      "id": "whatweb",
+      "source": "whatweb",
+      "flags": "i"
+    },
+    {
+      "id": "jaeles",
+      "source": "jaeles",
+      "flags": "i"
+    },
+    {
+      "id": "dalfox",
+      "source": "dalfox",
+      "flags": "i"
+    },
+    {
+      "id": "xsstrike",
+      "source": "xsstrike",
+      "flags": "i"
+    },
+    {
+      "id": "commix",
+      "source": "commix",
+      "flags": "i"
+    },
+    {
+      "id": "tplmap",
+      "source": "tplmap",
+      "flags": "i"
+    },
+    {
+      "id": "fimap",
+      "source": "fimap",
+      "flags": "i"
+    },
+    {
+      "id": "uniscan",
+      "source": "uniscan",
+      "flags": "i"
+    },
+    {
+      "id": "paros",
+      "source": "paros",
+      "flags": "i"
+    },
+    {
+      "id": "webscarab",
+      "source": "webscarab",
+      "flags": "i"
+    },
+    {
+      "id": "vega",
+      "source": "vega",
+      "flags": "i"
+    },
+    {
+      "id": "grabber",
+      "source": "grabber",
+      "flags": "i"
+    },
+    {
+      "id": "havij",
+      "source": "havij",
+      "flags": "i"
+    },
+    {
+      "id": "pangolin",
+      "source": "pangolin",
+      "flags": "i"
+    },
+    {
+      "id": "absinthe",
+      "source": "absinthe",
+      "flags": "i"
+    },
+    {
+      "id": "sqlninja",
+      "source": "sqlninja",
+      "flags": "i"
+    },
+    {
+      "id": "bbscan",
+      "source": "bbscan",
+      "flags": "i"
+    },
+    {
+      "id": "xray",
+      "source": "xray",
+      "flags": "i"
+    },
+    {
+      "id": "gau",
+      "source": "gau",
+      "flags": "i"
+    },
+    {
+      "id": "gauri",
+      "source": "gauri",
+      "flags": "i"
+    },
+    {
+      "id": "waybackurls",
+      "source": "waybackurls",
+      "flags": "i"
+    },
+    {
+      "id": "hakrawler",
+      "source": "hakrawler",
+      "flags": "i"
+    },
+    {
+      "id": "meg",
+      "source": "meg",
+      "flags": "i"
+    },
+    {
+      "id": "spider",
+      "source": "spider",
+      "flags": "i"
+    },
+    {
+      "id": "crawler",
+      "source": "crawler",
+      "flags": "i"
+    },
+    {
+      "id": "scan",
+      "source": "scan",
+      "flags": "i"
+    },
+    {
+      "id": "exploit",
+      "source": "exploit",
+      "flags": "i"
+    },
+    {
+      "id": "vulnerability",
+      "source": "vulnerability",
+      "flags": "i"
+    },
+    {
+      "id": "securityscan",
+      "source": "securityscan",
+      "flags": "i"
+    },
+    {
+      "id": "netsparker",
+      "source": "netsparker",
+      "flags": "i"
+    },
+    {
+      "id": "appscan",
+      "source": "appscan",
+      "flags": "i"
+    },
+    {
+      "id": "webinspect",
+      "source": "webinspect",
+      "flags": "i"
+    }
+  ],
+  "LOGIN_PATHS": [
+    "/login",
+    "/signin",
+    "/sign-in",
+    "/signup",
+    "/register",
+    "/auth",
+    "/authenticate",
+    "/session",
+    "/oauth",
+    "/oauth2",
+    "/token",
+    "/api/login",
+    "/api/auth",
+    "/api/signin",
+    "/api/session",
+    "/api/token",
+    "/api/v1/login",
+    "/api/v1/auth",
+    "/api/v2/login",
+    "/admin/login",
+    "/admin/signin",
+    "/user/login",
+    "/account/login",
+    "/portal/login",
+    "/wp-login.php",
+    "/j_spring_security_check"
+  ],
+  "SENSITIVE_SCAN_PATHS": [
+    "/wp-admin",
+    "/wp-login.php",
+    "/wp-content",
+    "/wp-includes",
+    "/xmlrpc.php",
+    "/phpmyadmin",
+    "/pma",
+    "/adminer",
+    "/adminer.php",
+    "/.env",
+    "/.git",
+    "/.svn",
+    "/.hg",
+    "/.DS_Store",
+    "/server-status",
+    "/server-info",
+    "/debug",
+    "/trace",
+    "/actuator",
+    "/actuator/env",
+    "/actuator/health",
+    "/vendor/phpunit",
+    "/boaform",
+    "/cgi-bin",
+    "/jenkins",
+    "/solr",
+    "/console",
+    "/manager/html",
+    "/phpinfo.php",
+    "/info.php",
+    "/config.php",
+    "/backup",
+    "/backups",
+    "/dump.sql",
+    "/database.sql",
+    "/.aws",
+    "/.docker",
+    "/crossdomain.xml",
+    "/clientaccesspolicy.xml",
+    "/telescope",
+    "/horizon",
+    "/_profiler",
+    "/graphql",
+    "/swagger",
+    "/api-docs",
+    "/.well-known/security.txt"
+  ],
+  "BEHAVIOR_RATE_DEFAULTS": {
+    "ddos": {
+      "maxPerWindow": 90,
+      "windowMs": 10000
+    },
+    "bruteForce": {
+      "maxPerWindow": 8,
+      "windowMs": 60000
+    },
+    "scanner": {
+      "maxPerWindow": 10,
+      "windowMs": 60000
+    },
+    "botActivity": {
+      "maxPerWindow": 35,
+      "windowMs": 30000
+    },
+    "suspiciousRequest": {
+      "maxPerWindow": 6,
+      "windowMs": 60000
+    }
+  }
+}

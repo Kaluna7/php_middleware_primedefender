@@ -1,0 +1,37 @@
+{
+  "name": "primedefender/php",
+  "description": "PrimeDefender security middleware for PHP: WAF-style detection, blocking, and incident reporting to the PrimeDefender bridge.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "primedefender",
+    "security",
+    "waf",
+    "middleware",
+    "psr-15",
+    "sqli",
+    "xss"
+  ],
+  "homepage": "https://github.com/primedefender/primedefender-php",
+  "support": {
+    "issues": "https://github.com/primedefender/primedefender-php/issues",
+    "source": "https://github.com/primedefender/primedefender-php"
+  },
+  "require": {
+    "php": ">=8.1",
+    "psr/http-message": "^1.0 || ^2.0",
+    "psr/http-server-middleware": "^1.0",
+    "psr/http-server-handler": "^1.0",
+    "psr/http-factory": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "PrimeDefender\\": "src/"
+    }
+  },
+  "suggest": {
+    "nyholm/psr7": "PSR-7 implementation for Slim/PSR-15 apps",
+    "slim/slim": "Use PrimeDefenderMiddleware with Slim"
+  },
+  "minimum-stability": "stable"
+}
